@@ -1,7 +1,6 @@
 package me.weave.java8to11;
 
-import me.weave.java8to11.functionalInterfaces.PureFunction;
-import me.weave.java8to11.functionalInterfaces.RunSomething;
+import me.weave.java8to11.functionalInterface.RunSomething;
 
 public class LambdaAndAnonymousFunctionTest {
 

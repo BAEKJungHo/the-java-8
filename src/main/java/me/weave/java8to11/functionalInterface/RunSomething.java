@@ -1,4 +1,4 @@
-package me.weave.java8to11.functionalInterfaces;
+package me.weave.java8to11.functionalInterface;
 
 /**
  * @FunctionalInterface 와 추상 메서드가 하나이면 함수형 인터페이스이다.

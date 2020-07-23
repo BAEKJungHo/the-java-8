@@ -1,6 +1,6 @@
 package me.weave.java8to11;
 
-import me.weave.java8to11.functionalInterfaces.PureFunction;
+import me.weave.java8to11.functionalInterface.PureFunction;
 
 /**
  * 순수 함수 테스트
