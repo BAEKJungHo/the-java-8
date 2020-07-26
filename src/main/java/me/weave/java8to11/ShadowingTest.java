@@ -1,4 +1,4 @@
-package me.weave.java8to11.functionalInterfaceImpl;
+package me.weave.java8to11;
 
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
