@@ -126,3 +126,39 @@
    - static reverseOrder() / naturalOrder()
    - static nullsFirst() / nullsLast()
    - static comparing()
+   
+## 디폴트 메서드를 쓰면서 얻는 이점
+
+Java 8 이 나오기 이전에는 아래와 같은 방식을 사용했다.
+
+- FooInterface 
+   - a 추상 메서드
+   - b 추상 메서드
+   - c 추상 메서드
+- FooAbstract
+   - FooInteface 를 구현하고, 바디가 비어있는 메서드를 구현한다.
+   - a 메서드
+   - b 메서드
+   - c 메서드
+- A class
+   - a 메서드 오버라이딩
+- B class
+   - b 메서드 오버라이딩
+- ...
+   
+즉, 원하는 메서드만 사용하게 하기위해서 이런 방식을 썼는데, 이렇게 쓰면 단점이 상속을 사용하기 때문에, 추상 메서드만 상속받고 나머지는 상속받지 못한다.
+
+Java 8 이후 부터는 디폴트 메서드가 등장해서 아래와 같아진다.
+
+- FooInterface
+   - a 디폴트 메서드
+   - b 디폴트 메서드
+   - c 디폴트 메서드
+- A class, B class, C class 에서 FooInterface 를 구현
+
+이렇게 되면 인터페이스를 구현한것이기 때문에, 상속으로부터 자유로워 진다. 이러한 특징을 `비침투성(none-invasive)` 이라고 하고, 스프링에서는 이러한 접근 방식을 좋아한다.
+
+> 즉, 디폴트 메서드를 사용하면서 장점은 상속으로부터 자유로워지고, 코드도 간결해진다.
+
+자바 8 이전에는 스프링 시큐리티에서 WebMvcConfigurerAdapter 를 사용하였는데 스프링 5.0 부터는 자바 8을 사용해야해서 WebMvcConfigurerAdapter 가 deprecated 되었다. 
+대신 WebMvcConfigurerAdapter 에서 추상 메서드로 제공한 메서드들을 WebMvcConfigurer 에서 default 메서드로 제공한다.
