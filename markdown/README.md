@@ -219,3 +219,66 @@ Java 8 이후 부터는 디폴트 메서드가 등장해서 아래와 같아진�
 - 스트림을 데이터 하나로 뭉치기
    - reduce(identity, BiFunction), collect(), sum(), max()
    - ex) 모든 데이터를 하나의 List 또는 Set 에 옮겨 담기.
+
+## Optional
+
+- 자바 프로그래밍에서 NullPointerException 을 종종 보게 되는 이유
+   - null 을 리턴하니까 && null 체크를 깜빡했으니까
+
+- 메서드에서 작업 중 특별한 상황에서 값을 제대로 리턴할 수 없는 경우 선택할 수 있는 방법
+   - 예외를 던진다. (비싸다. 스택트레이스를 찍어두니까.)
+   - null 을 리턴한다. (비용 문제가 없지만 그 코드를 사용하는 클라이언트 코드가 주의해야한다.)
+   - Optional 을 리턴한다. (클라이언트 코드에게 명시적으로 빈 값일 수도 있다는 걸 알려주고, 빈 값인 경우에 대한 처리를 강제한다.)
+   
+- Optional
+   - 오직 값 한 개가 들어있을 수도 없을 수도 있는 컨테이너.
+   
+- `주의할 것`
+   - 리턴값으로만 쓰기를 권장한다. (메서드 매개변수 타입, 맵의 키 타입, 인스턴스 필드 타입으로 쓰지 말자.)
+   - Optioanl 을 리턴하는 메서드에서 null 을 리턴하지 말자.
+   - Primitive 타입용 Optional 은 따로 있다. OptionalInt, OptionalLong 등
+   - Collection, Map, Stream Array, Optional 은 Optional 로 감싸지 말것.
+   
+
+> https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html
+>
+> https://www.oracle.com/technical-resources/articles/java/java8-optional.html
+>
+> 이팩티브 자바 3판, 아이템 55 적절한 경우 Optional을 리턴하라.
+
+## Optional API
+
+- Optional 만들기
+   - Optional.of()
+   - Optional.ofNullable()
+   - Optional.empty()
+   
+- Optional 에 값이 있는지 없는지 확인하기
+   - isPresent()
+   - isEmpty() : 자바 11 부터 제공
+ 
+ - Optional 에 있는 값 가져오기
+   - get()
+   - 만약에 비어있는 Optional 에서 무언가를 꺼낸다면?
+   
+ - Optional 에 값이 있는 경우에 그 값을 가지고 -- 를 하라.
+   - ifPresent(Consumer)
+   - ex) Spring 으로 시작하는 수업이 있으면 id 를 출력하라.
+   
+- Optional 에 값이 있으면 가져오고 없으면 -- 를 리턴하라.
+   - orElse(T)
+   - ex) JPA 로 시작하는 수업이 없다면 비어있는 수업을 리턴하라.
+
+- Optional 에 값이 있으면 가져오고 없는 경우에 -- 를 하라.
+   - orElseGet(Supplier)
+   - ex) JPA 로 시작하는 수없이 없다면 새로 만들어서 리턴하라.
+ 
+ - Optional 에 값이 있으면 가져오고 없는 경우에 에러를 던져라
+   - orElseThrow()
+ 
+ - Optional 에 들어있는 값 걸러내기
+   - Optional filter(Predicate)
+   
+ - Optional 에 들어있는 값 변환하기
+   - Optional map(Function)
+   - Optional flatMap(Function) : Optional 안에 들어있는 인스턴스가 Optional 인 경우에 사용하면 편하다.
