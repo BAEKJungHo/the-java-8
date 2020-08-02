@@ -162,3 +162,34 @@ Java 8 이후 부터는 디폴트 메서드가 등장해서 아래와 같아진�
 
 자바 8 이전에는 스프링 시큐리티에서 WebMvcConfigurerAdapter 를 사용하였는데 스프링 5.0 부터는 자바 8을 사용해야해서 WebMvcConfigurerAdapter 가 deprecated 되었다. 
 대신 WebMvcConfigurerAdapter 에서 추상 메서드로 제공한 메서드들을 WebMvcConfigurer 에서 default 메서드로 제공한다.
+
+## Stream
+
+- sequence of elements supporting sequential and parallel aggregate operations
+- 데이터를 담고 있는 저장소(컬렉션)이 아니다.
+- Functional in nature, 스트림이 처리하는 데이터 소스를 변경하지 않는다.
+- 스트림으로 처리하는 데이터는 오직 한번만 처리한다.
+- 무제한 일 수도 있다. (Short circuit 메서드를 사용해서 제한할 수 있다.)
+- 중개 오퍼레이션은 근본적으로 lazy 하다.
+- 손쉽게 병렬 처리할 수 있다.
+
+### 스트림 파이프라인
+
+- 0 또는 다수의 중개 오퍼레이션(intermediate operation)과 한 개의 종료 오퍼레이션(terminal operation)으로 구성한다.
+- 스트림의 데이터 소스는 오직 터미널 오퍼레이션을 실행할 때만 처리한다.
+
+### 중개 오퍼레이션
+
+- Stream 을 리턴한다.
+- Stateless / Stateful 오퍼레이션으로 더 상세하게 구분할 수도 있다. (대부분은 Stateless 지만, distinct 나 sorted 처럼 이전 소스 데이터를 참조해야 하는 오퍼레이션은 Stateful 오퍼레이션이다.)
+- filter, map, limit, skip, sorted ...
+
+### 종료 오퍼레이션
+
+- Stream 을 리턴하지 않는다.,
+- collect, allMatch, count, forEach, min, max ...
+
+> https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html
+> 
+> https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
+
