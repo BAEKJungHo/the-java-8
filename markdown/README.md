@@ -265,8 +265,9 @@ Java 8 이후 부터는 디폴트 메서드가 등장해서 아래와 같아진�
    - ifPresent(Consumer)
    - ex) Spring 으로 시작하는 수업이 있으면 id 를 출력하라.
    
-- Optional 에 값이 있으면 가져오고 없으면 -- 를 리턴하라.
+- Optional 에 값이 있으면 가져오고, 또한 T 에 전달된 행동을 리턴한다, 없으면 T 에 전달된 행동을 리턴하라.
    - orElse(T)
+   - T 에 createNewClass 와 같은 메서드가 있다면, Optional 에 값이 있든 없든 T 위치에 있는 것은 무조건 실행된다.
    - ex) JPA 로 시작하는 수업이 없다면 비어있는 수업을 리턴하라.
 
 - Optional 에 값이 있으면 가져오고 없는 경우에 -- 를 하라.
