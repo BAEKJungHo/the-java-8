@@ -364,3 +364,88 @@ TimeZone legacyZoneAPI = TimeZone.getTimeZone(newZoneAPI);
 Instant newInstant = new Date().toInstant();
 Date legacyInstant = Date.from(newInstant);
 ```
+
+## CompletableFuture
+
+- Concurrent 소프트웨어
+   - 동시에 여러 작업을 할 수 있는 소프트웨어
+   - ex) 웹 브라우저로 유튜브를 보면서 키보드로 문서에 타이핑을 할 수 있다.
+   - ex) 녹화를 하면서 인텔리 J 로 코딩을 하고 워드에 적어둔 문서를 보거나 수정할 수 있다.
+   
+- 자바에서 지원하는 Concurrent Programming
+   - 멀티 프로세싱(ProcessBuilder)
+   - 멀티쓰레드
+   
+- 자바 멀티쓰레드 프로그래밍  
+   - Thread / Runnable
+   
+- Thread 상속
+
+```java
+public static void main(String[] args) {
+   HelloThread helloThread = new HelloThread();
+   helloThread.start();
+   System.out.println("hello : " + Thread.currentThread().getName());
+}
+
+static class HelloThread extends Thread {
+   @Override
+   public void run() {
+      System.out.println("world : " + Thread.currentThread().getName());
+   }
+}
+```
+
+- Runnable 구현 또는 람다
+
+```java
+Thread thread = new Thread(() -> System.out.println("world : " + Thread.currentThread().getName()));
+thread.start();
+System.out.println("hello : " + Thread.currentThread().getName());
+```
+
+- 스레드 주요 기능
+   - 현재 쓰레드 멈춰두기(sleep) : 다른 쓰레드가 처리할 수 있도록 기회를 주지만 그렇다고 락을 놔주진 않는다.(잘못하면 데드락 걸림)
+   - 다른 쓰레드 깨우기(interrupt) : 다른 쓰레드를 깨워서 interruptedException 을 발생 시킨다. 그 에러가 발생했을 때 할 일은 코딩하기 나름. 종료시킬 수도 있고, 계속 하던 일 할 수도 있다.
+   - 다른 쓰레드 기다리기(join) : 다른 쓰레드가 끝날 때까지 기다린다.
+   
+> https://docs.oracle.com/javase/tutorial/essential/concurrency/
+>
+> https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#interrupt--
+
+## Executors
+
+- 고수준(High-Level) Concurrency 프로그래밍 
+   - 쓰레드를 만ㄷ르고 관리하는 작업을 애플리케이션에서 분리
+   - 그런 기능을 Executors 에게 위임
+   
+- Executors 가 하는 일
+   - 쓰레드 만들기 : 애플리케이션이 사용할 쓰레드 풀을 만들어 관리한다.
+   - 쓰레드 관리 : 쓰레드 생명 주기를 관리한다.
+   - 작업 처리 및 실행 : 쓰레드로 실행할 작업을 제공할 수 있는 API 를 제공한다.
+   
+ - 주요 인터페이스
+   - Executor : execute(Runnable)
+   - ExecutorService : Executor 상속 받은 인터페이스로, Callable 도 실행할 수 있으며, Executor 를 종료 시키거나, 여러 Callable 을 동시에 실행하는 등의 기능을 제공한다.
+   - ScheduledExecutorService : ExecutorService 를 상속 받은 인터페이스로 특정 시간 이후에 또는 주기적으로 작업을 실행할 수 있다.
+   
+ - ExecutorService 로 작업 실행하기
+ 
+ ```java
+ExecutorService executorService = Executors.newSingleThreadExecutor();
+   executorService.submit(() -> {
+   System.out.println("Hello :" + Thread.currentThread().getName());
+});
+```
+
+- ExcutorService 로 멈추기
+
+```java
+executorService.shutdown(); // 처리중인 작업 기다렸다가 종료
+executorService.shutdownNow(); // 당장 종료
+```
+
+- Fork Join Framework
+   - ExecutorService 의 구현체로 손쉽게 멀티 프로세스를 활용할 수 있게끔 도와준다.
+   
+> https://docs.oracle.com/javase/tutorial/essential/concurrency/executors.html
