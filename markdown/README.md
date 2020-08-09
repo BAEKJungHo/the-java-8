@@ -311,7 +311,7 @@ Java 8 이후 부터는 디폴트 메서드가 등장해서 아래와 같아진�
 
 - 참고
    - https://codeblog.jonskeet.uk/2017/04/23/all-about-java-util-date/
-      - 자바 8 이전에 사용했던 Date 관련 함수들이 어떤 것들이 불편한지 자세하게 
+      - 자바 8 이전에 사용했던 Date 관련 함수들이 어떤 것들이 불편한지 자세하게 설명하고있다.
    - https://docs.oracle.com/javase/tutorial/datetime/overview/index.html
    - https://docs.oracle.com/javase/tutorial/datetime/iso/overview.htm
 
