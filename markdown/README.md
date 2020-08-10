@@ -416,7 +416,7 @@ System.out.println("hello : " + Thread.currentThread().getName());
 ## Executors
 
 - 고수준(High-Level) Concurrency 프로그래밍 
-   - 쓰레드를 만ㄷ르고 관리하는 작업을 애플리케이션에서 분리
+   - 쓰레드를 만고 관리하는 작업을 애플리케이션에서 분리
    - 그런 기능을 Executors 에게 위임
    
 - Executors 가 하는 일
