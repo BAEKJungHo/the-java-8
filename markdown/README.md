@@ -449,3 +449,77 @@ executorService.shutdownNow(); // 당장 종료
    - ExecutorService 의 구현체로 손쉽게 멀티 프로세스를 활용할 수 있게끔 도와준다.
    
 > https://docs.oracle.com/javase/tutorial/essential/concurrency/executors.html
+
+## Callable 과 Future
+
+- Callable
+   - Runnable과 유사하지만 작업의 결과를 받을 수 있다.
+- Future
+   - 비동기적인 작업의 현재 상태를 조회하거나 결과를 가져올 수 있다.
+   - https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html
+
+- 결과를 가져오기 get()
+```java
+ExecutorService executorService = Executors.newSingleThreadExecutor();
+   Future<String> helloFuture = executorService.submit(() -> {
+   Thread.sleep(2000L);
+   return "Callable";
+});
+System.out.println("Hello");
+String result = helloFuture.get();
+System.out.println(result);
+executorService.shutdown();
+```
+- 블록킹 콜이다.
+- 타임아웃(최대한으로 기다릴 시간)을 설정할 수 있다.
+- 작업 상태 확인하기 isDone()
+   - 완료 했으면 true 아니면 false를 리턴한다.
+- 작업 취소하기 cancel()
+   - 취소 했으면 true 못했으면 false를 리턴한다.
+- parameter로 true를 전달하면 현재 진행중인 쓰레드를 interrupt하고 그러지 않으면 현재
+   - 진행중인 작업이 끝날때까지 기다린다.
+- 여러 작업 동시에 실행하기 invokeAll()
+   - 동시에 실행한 작업 중에 제일 오래 걸리는 작업 만큼 시간이 걸린다.
+   - 여러 작업 중에 하나라도 먼저 응답이 오면 끝내기 invokeAny()
+- 동시에 실행한 작업 중에 제일 짧게 걸리는 작업 만큼 시간이 걸린다.
+- 블록킹 콜이다.
+
+## CompletableFuture 
+
+- 자바에서 비동기(Asynchronous) 프로그래밍을 가능케하는 인터페이스.
+   - Future를 사용해서도 어느정도 가능했지만 하기 힘들 일들이 많았다.
+- Future로는 하기 어렵던 작업들
+   - Future를 외부에서 완료 시킬 수 없다. 취소하거나, get()에 타임아웃을 설정할 수는 있다.
+   - 블로킹 코드(get())를 사용하지 않고서는 작업이 끝났을 때 콜백을 실행할 수 없다.
+   - 여러 Future를 조합할 수 없다, 예) Event 정보 가져온 다음 Event에 참석하는 회원 목록
+- 가져오기
+   - 예외 처리용 API를 제공하지 않는다.
+- CompletableFuture
+   - Implements Future
+   - Implements CompletionStage
+- 비동기로 작업 실행하기
+   - 리턴값이 없는 경우: runAsync()
+   - 리턴값이 있는 경우: supplyAsync()
+- 원하는 Executor(쓰레드풀)를 사용해서 실행할 수도 있다. (기본은
+   - ForkJoinPool.commonPool())
+- 콜백 제공하기
+   - thenApply(Function): 리턴값을 받아서 다른 값으로 바꾸는 콜백
+   - thenAccept(Consumer): 리턴값을 또 다른 작업을 처리하는 콜백 (리턴없이)
+   - thenRun(Runnable): 리턴값 받지 다른 작업을 처리하는 콜백
+   - 콜백 자체를 또 다른 쓰레드에서 실행할 수 있다
+
+> https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html
+>
+> https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletionStage.html
+
+- 조합하기
+   - thenCompose(): 두 작업이 서로 이어서 실행하도록 조합
+   - thenCombine(): 두 작업을 독립적으로 실행하고 둘 다 종료 했을 때 콜백 실행
+   - allOf(): 여러 작업을 모두 실행하고 모든 작업 결과에 콜백 실행
+   - anyOf(): 여러 작업 중에 가장 빨리 끝난 하나의 결과에 콜백 실행
+- 예외처리
+   - exeptionally(Function)
+   - handle(BiFunction):
+- 참고
+   - https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html
+   - https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html
